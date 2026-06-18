@@ -1,0 +1,721 @@
+# Module 1 – What is a Transformer?
+
+> **Learning Goal:** Understand what a Transformer is, why it was invented, how it works at a high level, and why it became the foundation of modern Large Language Models (LLMs).
+
+---
+
+# What is a Transformer?
+
+A **Transformer** is a deep learning architecture designed to process sequential data (such as text) by allowing every word in a sequence to interact with every other word using a mechanism called **Attention**.
+
+Unlike RNNs and LSTMs, which process words one at a time, a Transformer processes **all words simultaneously (in parallel)**.
+
+This makes Transformers:
+
+* Faster to train
+* Better at understanding long-range relationships
+* Highly scalable to massive datasets and models
+
+Today, almost every modern Large Language Model (LLM), including **GPT, Claude, Gemini, Llama, Mistral, and Qwen**, is built on the Transformer architecture.
+
+---
+
+# Why is it Called a "Transformer"?
+
+The name **Transformer** comes from the model's ability to **transform an input sequence into a meaningful output sequence** while learning relationships between all the tokens.
+
+For example:
+
+```text
+Input:
+The cat sat on the mat.
+
+↓
+
+Transformer
+
+↓
+
+Output:
+Le chat est assis sur le tapis.
+```
+
+Originally, Transformers were introduced for **machine translation**, where they transformed sentences from one language into another.
+
+Today, the same architecture is used for many other tasks, including:
+
+* Text generation
+* Question answering
+* Chatbots
+* Code generation
+* Summarization
+* Image understanding (Vision Transformers)
+* Speech processing
+
+The word **Transformer** does **not** mean it changes data formats—it refers to transforming information from one representation into another while preserving meaning.
+
+---
+
+# Why Were Transformers Invented?
+
+Before Transformers, language models primarily used **Recurrent Neural Networks (RNNs)** and **Long Short-Term Memory (LSTM)** networks.
+
+Although these models could process sequences, they had several major limitations.
+
+## Problem 1 – Sequential Processing
+
+RNNs process one word at a time.
+
+```text
+The
+ ↓
+boy
+ ↓
+ate
+ ↓
+the
+ ↓
+apple
+```
+
+Each word depends on the computation of the previous word.
+
+This means:
+
+* The model cannot process multiple words simultaneously.
+* GPUs cannot be fully utilized.
+* Training becomes slow.
+
+---
+
+## Problem 2 – Long-Term Dependencies
+
+Consider the sentence:
+
+> "The boy who won the science competition last week thanked his teacher because **she** inspired him."
+
+To understand who **she** refers to, the model must remember information from many words earlier.
+
+RNNs gradually lose information as sequences become longer.
+
+Even LSTMs, while better than RNNs, still struggle with very long documents.
+
+---
+
+## Problem 3 – Poor Scalability
+
+As datasets became larger and models grew to billions of parameters, sequential architectures became inefficient.
+
+Researchers needed an architecture that could:
+
+* Train faster
+* Handle longer contexts
+* Scale to enormous datasets
+
+This led to the invention of the Transformer.
+
+---
+
+# The Birth of the Transformer
+
+In 2017, researchers at Google published a paper titled:
+
+> **"Attention Is All You Need"**
+
+The paper introduced the **Transformer architecture**, proposing a revolutionary idea:
+
+> Instead of reading words one after another, allow every word to directly attend to every other word.
+
+This eliminated the need for recurrence (RNNs) and enabled parallel processing.
+
+The paper fundamentally changed Natural Language Processing (NLP) and laid the foundation for modern AI systems.
+
+---
+
+# The Core Idea Behind Transformers
+
+The most important idea behind a Transformer is:
+
+> **Every word can directly look at every other word in the sentence to understand its meaning.**
+
+Consider the sentence:
+
+```text
+The boy ate the apple because it was delicious.
+```
+
+Humans instantly know that:
+
+```text
+it
+ ↓
+apple
+```
+
+The word **it** refers to **apple**, not **boy**.
+
+A Transformer learns this relationship by allowing **it** to attend to all the other words and determine which ones are most relevant.
+
+Unlike RNNs, it does not need to carry this information through intermediate words.
+
+---
+
+# How Does a Transformer Work?
+
+At a high level, a Transformer follows these steps:
+
+```text
+Input Sentence
+      ↓
+Tokenization
+      ↓
+Embeddings
+      ↓
+Positional Encoding
+      ↓
+Transformer Layers
+      ↓
+Output Layer
+      ↓
+Prediction
+```
+
+Let's briefly understand each step.
+
+---
+
+## Step 1 – Input Text
+
+The model receives text.
+
+Example:
+
+```text
+The cat sat on the mat.
+```
+
+Computers cannot understand raw text directly.
+
+The sentence must first be converted into numerical representations.
+
+---
+
+## Step 2 – Tokenization
+
+The sentence is split into smaller units called **tokens**.
+
+Example:
+
+```text
+"The cat sat on the mat."
+
+↓
+
+["The", "cat", "sat", "on", "the", "mat"]
+```
+
+Modern tokenizers may split words differently depending on the vocabulary.
+
+Each token is assigned a unique numerical ID.
+
+Example:
+
+```text
+The → 102
+cat → 587
+sat → 941
+```
+
+These IDs are still just integers and do not carry semantic meaning.
+
+---
+
+## Step 3 – Embeddings
+
+Each token ID is converted into a dense numerical vector called an **embedding**.
+
+Example:
+
+```text
+The
+
+↓
+
+[0.24, -0.81, 1.02, ...]
+```
+
+Embeddings capture semantic information.
+
+Words with similar meanings tend to have similar embeddings.
+
+For example:
+
+```text
+King
+
+↓
+
+Vector A
+
+Queen
+
+↓
+
+Vector B
+```
+
+The vectors for **King** and **Queen** are much closer than the vectors for **King** and **Banana**.
+
+---
+
+## Step 4 – Positional Encoding
+
+Unlike RNNs, Transformers process all words simultaneously.
+
+Because of this, the model does not naturally know the order of words.
+
+For example:
+
+```text
+Dog bites man
+
+Man bites dog
+```
+
+Both contain the same words but have completely different meanings.
+
+To preserve word order, positional information is added to each embedding.
+
+```text
+Word Embedding
+
++
+
+Position Information
+
+=
+
+Final Input Representation
+```
+
+This tells the model where each word appears in the sentence.
+
+---
+
+## Step 5 – Transformer Layers
+
+This is the heart of the architecture.
+
+Each Transformer layer allows every token to interact with every other token using **Attention**.
+
+Example:
+
+```text
+The   boy   ate   the   apple
+
+ \     |     |      /      |
+  \    |     |     /       |
+   \   |     |    /        |
+    Every word interacts
+```
+
+The model learns:
+
+* Which words are related.
+* Which words are important.
+* Which words should influence each prediction.
+
+These interactions happen simultaneously.
+
+---
+
+## Step 6 – Output Layer
+
+After passing through multiple Transformer layers, the model generates an output.
+
+The output depends on the task.
+
+Examples:
+
+### Translation
+
+```text
+English
+
+↓
+
+French
+```
+
+---
+
+### Text Generation
+
+```text
+Input:
+
+The capital of France is
+
+↓
+
+Prediction:
+
+Paris
+```
+
+---
+
+### Sentiment Analysis
+
+```text
+Movie review
+
+↓
+
+Positive
+```
+
+---
+
+### Question Answering
+
+```text
+Question
+
+↓
+
+Answer
+```
+
+---
+
+# High-Level Transformer Architecture
+
+A Transformer consists of two major components:
+
+```text
+           Input
+             │
+             ▼
+        ┌───────────┐
+        │ Encoder   │
+        └───────────┘
+             │
+             ▼
+        Encoded Representation
+             │
+             ▼
+        ┌───────────┐
+        │ Decoder   │
+        └───────────┘
+             │
+             ▼
+          Output
+```
+
+The **Encoder** understands the input.
+
+The **Decoder** generates the output.
+
+Not every Transformer uses both components.
+
+Examples:
+
+* **BERT** → Encoder only
+* **GPT** → Decoder only
+* **T5** → Encoder + Decoder
+
+We will study these components in detail in the next module.
+
+---
+
+# Why Are Transformers Faster?
+
+Suppose we have four words.
+
+### RNN
+
+```text
+Word1
+ ↓
+Word2
+ ↓
+Word3
+ ↓
+Word4
+```
+
+The computation is sequential.
+
+Word 4 cannot be processed until Word 3 finishes.
+
+---
+
+### Transformer
+
+```text
+Word1
+Word2
+Word3
+Word4
+
+↓
+
+Processed Together
+```
+
+All words are processed simultaneously.
+
+This parallel computation makes Transformers significantly faster on modern GPUs and TPUs.
+
+---
+
+# Why Do Transformers Understand Context Better?
+
+Transformers use **Attention**, allowing each word to directly examine all other words.
+
+Example:
+
+```text
+The trophy doesn't fit into the suitcase because it is too large.
+```
+
+Humans know:
+
+```text
+it
+ ↓
+trophy
+```
+
+Now consider:
+
+```text
+The trophy doesn't fit into the suitcase because it is too small.
+```
+
+Now:
+
+```text
+it
+ ↓
+suitcase
+```
+
+The correct interpretation depends on the entire sentence.
+
+Attention enables the model to learn these relationships.
+
+---
+
+# Advantages of Transformers
+
+## Parallel Processing
+
+All tokens are processed simultaneously.
+
+Result:
+
+* Faster training
+* Better GPU utilization
+
+---
+
+## Long-Range Context
+
+Every token can directly interact with every other token.
+
+This allows the model to understand relationships across long documents.
+
+---
+
+## Better Language Understanding
+
+Attention helps identify which words are important for understanding meaning.
+
+---
+
+## Highly Scalable
+
+Transformers scale effectively to:
+
+* Billions of parameters
+* Trillions of tokens
+* Massive datasets
+
+This scalability enabled modern LLMs.
+
+---
+
+## Flexible Architecture
+
+The same architecture can be adapted for:
+
+* Language
+* Vision
+* Audio
+* Video
+* Multimodal AI
+
+---
+
+# Limitations of Transformers
+
+Although Transformers are powerful, they also have limitations.
+
+## High Memory Usage
+
+Attention compares every token with every other token.
+
+For very long sequences, memory usage grows rapidly.
+
+---
+
+## Computational Cost
+
+Training large Transformers requires:
+
+* Powerful GPUs
+* Large datasets
+* Significant computational resources
+
+---
+
+## Fixed Context Window
+
+A Transformer can only process a limited number of tokens at once.
+
+Examples:
+
+* 8K tokens
+* 32K tokens
+* 128K tokens
+
+Information beyond the context window is not directly available to the model.
+
+---
+
+# Real-World Applications
+
+Transformers power many modern AI systems.
+
+## Natural Language Processing
+
+* Chatbots
+* Translation
+* Summarization
+* Question Answering
+
+---
+
+## Code Generation
+
+Examples:
+
+* GitHub Copilot
+* ChatGPT
+* Code Assistants
+
+---
+
+## Computer Vision
+
+Vision Transformers (ViT) process images using Transformer architecture.
+
+Applications include:
+
+* Image classification
+* Object detection
+
+---
+
+## Speech Processing
+
+Used for:
+
+* Speech recognition
+* Speech generation
+* Voice assistants
+
+---
+
+## Multimodal AI
+
+Models such as GPT-4o and Gemini process multiple data types, including:
+
+* Text
+* Images
+* Audio
+* Video
+
+---
+
+# Transformer Workflow
+
+```text
+Input Text
+     │
+     ▼
+Tokenization
+     │
+     ▼
+Token IDs
+     │
+     ▼
+Embeddings
+     │
+     ▼
+Positional Encoding
+     │
+     ▼
+Transformer Layers
+     │
+     ▼
+Context-Aware Representations
+     │
+     ▼
+Output Layer
+     │
+     ▼
+Prediction
+```
+
+---
+
+# Key Terms
+
+| Term                | Meaning                                                           |
+| ------------------- | ----------------------------------------------------------------- |
+| Token               | Smallest unit of text processed by the model                      |
+| Embedding           | Numerical vector representing a token                             |
+| Positional Encoding | Information about the position of each token                      |
+| Attention           | Mechanism that determines which words are important to each other |
+| Encoder             | Learns contextual representations of the input                    |
+| Decoder             | Generates output tokens                                           |
+| Parallel Processing | Processing all tokens simultaneously                              |
+| Context             | Information surrounding a word that determines its meaning        |
+
+---
+
+# Summary
+
+* A **Transformer** is a deep learning architecture designed for processing sequential data using **Attention**.
+* Unlike RNNs and LSTMs, Transformers process **all tokens simultaneously**, enabling much faster training.
+* The architecture was introduced in the 2017 paper **"Attention Is All You Need."**
+* The Transformer consists of two major components: the **Encoder** and the **Decoder**.
+* Input text is converted into **tokens**, transformed into **embeddings**, enriched with **positional information**, and passed through multiple Transformer layers.
+* The key innovation is **Attention**, which allows every token to directly interact with every other token, improving context understanding and long-range dependency modeling.
+* Modern Large Language Models such as **GPT, Claude, Gemini, Llama, and Mistral** are all based on the Transformer architecture.
+
+---
+
+# Next Module
+
+In the next module, we will study:
+
+* Transformer Architecture in Detail
+* Encoder vs Decoder
+* Internal Components of a Transformer
+* Why GPT Uses Only the Decoder
+* Why BERT Uses Only the Encoder
+* Why T5 Uses Both

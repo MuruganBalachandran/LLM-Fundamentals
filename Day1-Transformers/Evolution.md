@@ -1,0 +1,555 @@
+# Module 0 – Background Before Transformers
+
+Before learning Transformers, it's important to understand how AI evolved. Every technology in this timeline was created to solve the limitations of the previous one.
+
+```text
+Artificial Intelligence (AI)
+        ↓
+Machine Learning (ML)
+        ↓
+Deep Learning (DL)
+        ↓
+Natural Language Processing (NLP)
+        ↓
+Rule-Based NLP
+        ↓
+Bag of Words (BoW)
+        ↓
+Word Embeddings (Word2Vec)
+        ↓
+RNN
+        ↓
+LSTM
+        ↓
+Transformers
+        ↓
+Large Language Models (GPT, Claude, Gemini, Llama)
+```
+
+---
+
+# 1. Artificial Intelligence (AI)
+
+## What is AI?
+
+Artificial Intelligence (AI) is a branch of computer science that focuses on building systems capable of performing tasks that normally require human intelligence.
+
+These tasks include:
+
+* Learning from data
+* Understanding language
+* Recognizing images
+* Solving problems
+* Making decisions
+* Planning
+* Generating content
+
+AI is **not a single algorithm or model**. It is a broad field that includes many different techniques, including Machine Learning and Deep Learning.
+
+---
+
+## Why do we need AI?
+
+Many real-world problems involve enormous amounts of data that humans cannot process efficiently.
+
+Examples include:
+
+* Billions of web pages
+* Millions of emails
+* Medical images
+* Financial transactions
+* Customer support conversations
+
+AI enables computers to automate these tasks by learning patterns and making predictions.
+
+---
+
+# 2. Machine Learning (ML)
+
+## What is Machine Learning?
+
+Machine Learning (ML) is a subset of Artificial Intelligence where computers learn patterns from data instead of being explicitly programmed.
+
+Instead of writing rules for every possible situation, we provide examples, and the model learns the underlying relationships.
+
+---
+
+## Traditional Programming vs Machine Learning
+
+### Traditional Programming
+
+```text
+Rules + Data
+      ↓
+   Output
+```
+
+The programmer manually writes all the rules.
+
+Example:
+
+```text
+IF temperature > 38°C
+THEN Fever
+```
+
+This works for simple problems but becomes impossible for complex tasks like image recognition or language understanding.
+
+---
+
+### Machine Learning
+
+```text
+Data + Correct Answers
+          ↓
+   Learning Algorithm
+          ↓
+        Model
+          ↓
+     Predictions
+```
+
+The model automatically learns the rules from the provided data.
+
+---
+
+## Why was Machine Learning introduced?
+
+Traditional programming struggles with problems where the rules are too complex or impossible to define manually.
+
+Examples:
+
+* Spam detection
+* Face recognition
+* Speech recognition
+* Language translation
+* Recommendation systems
+
+Machine Learning solves these by discovering patterns directly from data.
+
+---
+
+# 3. Deep Learning (DL)
+
+## What is Deep Learning?
+
+Deep Learning is a subset of Machine Learning that uses **multi-layer neural networks** to automatically learn complex patterns from data.
+
+Unlike traditional Machine Learning, Deep Learning does not require manual feature engineering.
+
+---
+
+## Why is it called "Deep"?
+
+The word **Deep** refers to the presence of many hidden layers inside a neural network.
+
+```text
+Input
+   ↓
+Hidden Layer
+   ↓
+Hidden Layer
+   ↓
+Hidden Layer
+   ↓
+Output
+```
+
+Each layer learns increasingly complex features from the input.
+
+---
+
+## What is a Neural Network?
+
+A Neural Network is a computational model inspired by the human brain.
+
+It consists of interconnected units called **neurons** that process information.
+
+A neural network learns by adjusting numerical values called **weights** during training.
+
+---
+
+## What is a Neuron?
+
+A neuron is the basic computational unit of a neural network.
+
+It performs three operations:
+
+1. Receives input values.
+2. Multiplies each input by a learned weight.
+3. Produces an output after applying an activation function.
+
+Mathematically:
+
+```text
+Output = Activation(Weighted Sum + Bias)
+```
+
+### Components
+
+**Weights**
+
+* Represent the importance of each input.
+* Learned automatically during training.
+
+**Bias**
+
+* Helps shift the output.
+* Makes learning more flexible.
+
+**Activation Function**
+
+* Introduces non-linearity.
+* Enables the network to learn complex patterns.
+
+---
+
+## Why is Deep Learning powerful?
+
+Deep Learning automatically extracts useful features from raw data.
+
+For example:
+
+Image Recognition
+
+```text
+Pixels
+   ↓
+Edges
+   ↓
+Shapes
+   ↓
+Objects
+```
+
+Language Processing
+
+```text
+Characters
+   ↓
+Words
+   ↓
+Phrases
+   ↓
+Meaning
+```
+
+This ability made Deep Learning highly successful for images, speech, and language.
+
+---
+
+# 4. Natural Language Processing (NLP)
+
+## What is NLP?
+
+Natural Language Processing (NLP) is the branch of AI that enables computers to understand, interpret, and generate human language.
+
+The goal of NLP is to allow humans to communicate with computers using natural language instead of programming languages.
+
+---
+
+## Applications of NLP
+
+* Chatbots
+* Translation
+* Text Summarization
+* Question Answering
+* Search Engines
+* Sentiment Analysis
+* Grammar Correction
+* Voice Assistants
+
+---
+
+# Evolution of NLP
+
+Researchers developed increasingly better techniques to process language.
+
+---
+
+## Stage 1 — Rule-Based NLP
+
+Early NLP systems relied entirely on manually written rules.
+
+Example:
+
+```text
+IF sentence contains "not"
+Reverse the sentiment.
+```
+
+### Limitations
+
+* Difficult to scale.
+* Cannot handle language variations.
+* Requires thousands of handcrafted rules.
+
+---
+
+## Stage 2 — Bag of Words (BoW)
+
+Bag of Words represents text by counting word frequencies.
+
+Example:
+
+Sentence 1
+
+```text
+I love AI
+```
+
+Sentence 2
+
+```text
+AI love I
+```
+
+Both produce the same representation because word order is ignored.
+
+### Limitation
+
+Bag of Words cannot understand sentence structure or context.
+
+---
+
+## Stage 3 — Word Embeddings
+
+Word Embeddings represent each word as a dense numerical vector.
+
+Words with similar meanings receive similar vector representations.
+
+Example:
+
+```text
+King ≈ Queen
+
+Car ≈ Automobile
+
+Doctor ≈ Physician
+```
+
+Unlike Bag of Words, embeddings capture semantic similarity.
+
+### Limitation
+
+Each word has only one fixed representation.
+
+Example:
+
+```text
+I deposited money in the bank.
+
+We sat beside the river bank.
+```
+
+The word **bank** has two different meanings, but Word2Vec gives it the same vector in both sentences.
+
+It cannot understand context.
+
+---
+
+# Why Sequence Matters
+
+Language depends on word order.
+
+Example:
+
+```text
+Dog bites man
+```
+
+```text
+Man bites dog
+```
+
+Both contain the same words, but the meanings are completely different.
+
+A language model must preserve sequence information.
+
+---
+
+# 5. Recurrent Neural Networks (RNN)
+
+## What is an RNN?
+
+A Recurrent Neural Network (RNN) is a neural network designed for sequential data.
+
+Instead of processing all words independently, it processes one word at a time while maintaining a memory of previous words.
+
+```text
+The
+ ↓
+boy
+ ↓
+ate
+ ↓
+the
+ ↓
+apple
+```
+
+Each new word updates the hidden state (memory).
+
+---
+
+## Why were RNNs introduced?
+
+Previous methods ignored word order.
+
+RNNs preserve sequence by processing words in order.
+
+This makes them suitable for:
+
+* Language Translation
+* Text Generation
+* Speech Recognition
+* Sentiment Analysis
+
+---
+
+## Limitation of RNN
+
+RNNs struggle with long sequences.
+
+As sentences become longer, information from earlier words gradually disappears.
+
+This is known as the **Long-Term Dependency Problem**.
+
+Example:
+
+```text
+The movie that I watched last week with my friends was absolutely fantastic because it...
+```
+
+By the time the model reaches the end of the sentence, it may have forgotten important information from the beginning.
+
+---
+
+# 6. Long Short-Term Memory (LSTM)
+
+## What is LSTM?
+
+Long Short-Term Memory (LSTM) is an improved version of RNN designed to remember important information over longer sequences.
+
+It introduces a memory mechanism that learns:
+
+* What to remember
+* What to forget
+* What to use later
+
+This greatly improves long-term memory.
+
+---
+
+## Why was LSTM introduced?
+
+It solves the long-term dependency problem of RNNs.
+
+LSTMs perform much better on longer documents and conversations.
+
+---
+
+## Limitation of LSTM
+
+Although LSTMs remember better, they still process words sequentially.
+
+```text
+Word1
+   ↓
+Word2
+   ↓
+Word3
+   ↓
+Word4
+```
+
+The model must wait for the previous word before processing the next.
+
+This prevents parallel computation and slows training.
+
+---
+
+# 7. Why Were Transformers Invented?
+
+Google researchers asked a simple question:
+
+> **"Why should a model read one word at a time?"**
+
+Humans can understand relationships between words across an entire sentence almost instantly.
+
+Instead of relying on sequential memory, every word should be able to directly interact with every other word.
+
+This idea became the foundation of the **Transformer architecture**.
+
+---
+
+## Problems Solved by Transformers
+
+### 1. Slow Training
+
+RNN/LSTM
+
+```text
+Word1
+ ↓
+Word2
+ ↓
+Word3
+```
+
+Each step depends on the previous one.
+
+Transformer
+
+```text
+Word1   Word2   Word3
+   ↓       ↓       ↓
+Processed Simultaneously
+```
+
+Transformers process all words in parallel, making training much faster.
+
+---
+
+### 2. Long-Term Dependencies
+
+RNNs gradually forget distant information.
+
+Transformers allow direct connections between any two words in a sentence, regardless of distance.
+
+Example:
+
+```text
+The boy ate the apple because it was delicious.
+```
+
+The model can directly connect:
+
+```text
+it
+ ↓
+apple
+```
+
+without passing through every intermediate word.
+
+---
+
+### 3. Scalability
+
+Because Transformers support parallel computation, they can be trained efficiently on massive datasets using GPUs and TPUs.
+
+This scalability enabled the development of modern Large Language Models such as GPT, Claude, Gemini, and Llama.
+
+---
+
+# Summary
+
+| Technology      | Solved                                   | Limitation                                      |
+| --------------- | ---------------------------------------- | ----------------------------------------------- |
+| Rule-Based NLP  | Simple language rules                    | Cannot scale                                    |
+| Bag of Words    | Word frequency                           | Ignores word order                              |
+| Word Embeddings | Semantic similarity                      | No contextual meaning                           |
+| RNN             | Preserves sequence                       | Forgets long context                            |
+| LSTM            | Better long-term memory                  | Sequential and slow                             |
+| Transformer     | Parallel processing + Long-range context | High computational cost for very long sequences |
